@@ -1,4 +1,5 @@
 from selenium import webdriver
+import time
 
 def get_drvier():
   # Set options to make browsing easier
@@ -11,12 +12,19 @@ def get_drvier():
   options.add_argument("disable-blink-features=AutomationControlled")
 
   driver = webdriver.Chrome(options=options)
-  driver.get("https://www.aptiv.com/en/insights/autonomous-driving")
+  driver.get("http://automated.pythonanywhere.com")
   return driver
+
+def clean_text(text):
+  """Extract only the temperature from text"""
+  output = float(text.split(": ")[1])
+  return output
+
 
 def main():
   driver = get_drvier()
-  element = driver.find_element(by="xpath", value="/html/body/div[1]/div[2]/div[2]/div[2]/div/div/div/div[1]")
-  return element.text
+  time.sleep(2)
+  element = driver.find_element(by="xpath", value="/html/body/div[1]/div/h1[2]")
+  return clean_text(element.text)
 
 print(main())
